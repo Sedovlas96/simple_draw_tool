@@ -40,10 +40,10 @@ def drawRectangle(canvas, coordinates, drawChar='x'):
     # draw rectangle from point (x1, y1) to (x2, y2)
 
     x1, y1, x2, y2 = coordinates
-    canvas = drawLine(canvas, [x1, y1, x2, y1], drawChar)
-    canvas = drawLine(canvas, [x2, y1, x2, y2], drawChar)
-    canvas = drawLine(canvas, [x2, y2, x1, y2], drawChar)
-    canvas = drawLine(canvas, [x1, y2, x1, y1], drawChar)
+    drawLine(canvas, [x1, y1, x2, y1], drawChar)   # up
+    drawLine(canvas, [x2, y1, x2, y2], drawChar)   # right
+    drawLine(canvas, [x2, y2, x1, y2], drawChar)   # down
+    drawLine(canvas, [x1, y2, x1, y1], drawChar)   # left
     return canvas
 
 
@@ -54,10 +54,10 @@ def floodFillingArea(canvas, x, y, oldColor, newColor):
         # print(matrixToString(canvas))
         return canvas
     canvas[y, x] = newColor
-    floodFillingArea(canvas, x + 1, y, oldColor, newColor)
-    floodFillingArea(canvas, x - 1, y, oldColor, newColor)
-    floodFillingArea(canvas, x, y + 1, oldColor, newColor)
-    floodFillingArea(canvas, x, y - 1, oldColor, newColor)
+    floodFillingArea(canvas, x + 1, y, oldColor, newColor)  # up
+    floodFillingArea(canvas, x - 1, y, oldColor, newColor)  # down
+    floodFillingArea(canvas, x, y + 1, oldColor, newColor)  # right
+    floodFillingArea(canvas, x, y - 1, oldColor, newColor)  # left
 
 
 def bucketFill(canvas, x, y, color):
@@ -74,10 +74,10 @@ def initEmptyCanvas(comand):
 
     width, height = int(comand[1]) + 2, int(comand[2]) + 2
     canvas = generateMatrix(height, width)
-    canvas = drawLine(canvas, [0, 0, width - 1, 0], '-', True)
-    canvas = drawLine(canvas, [0, height - 1, width - 1, height - 1], '-', True)
-    canvas = drawLine(canvas, [0, 1, 0, height - 2], '|', True)
-    canvas = drawLine(canvas, [width - 1, 1, width - 1, height - 2], '|', True)
+    drawLine(canvas, [0, 0, width - 1, 0], '-', True)                      # up
+    drawLine(canvas, [0, height - 1, width - 1, height - 1], '-', True)    # down
+    drawLine(canvas, [0, 1, 0, height - 2], '|', True)                     # left
+    drawLine(canvas, [width - 1, 1, width - 1, height - 2], '|', True)     # right
     return canvas
 
 
@@ -87,12 +87,12 @@ def executeComand(canvas, comand):
     comandType = comand[0]
     if comandType == 'L':
         coordinates = np.array(comand[1:]).astype(int)
-        canvas = drawLine(canvas, coordinates)
+        drawLine(canvas, coordinates)
     elif comandType == 'R':
         coordinates = np.array(comand[1:]).astype(int)
-        canvas = drawRectangle(canvas, coordinates)
+        drawRectangle(canvas, coordinates)
     elif comandType == 'B':
         x, y, color = int(comand[1]), int(comand[2]), comand[3]
-        canvas = bucketFill(canvas, x, y, color)
+        bucketFill(canvas, x, y, color)
 
     return canvas

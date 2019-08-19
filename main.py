@@ -1,4 +1,5 @@
 from methods import *
+import os
 
 
 def executeDrawingTool():
@@ -6,6 +7,7 @@ def executeDrawingTool():
     # draw comands
     # write result to output file
 
+    os.remove('output.txt')
     with open('input.txt', 'r') as comands:
         canvas = ''  # init canvas
         resultCanvas = ''
